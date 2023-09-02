@@ -13,14 +13,14 @@ namespace PokemonWebApi.Repositories
             _context = context;
         }
 
-        public Pokemon GetPokemon(int id)
+        public List<Pokemon> GetPokemon(int id)
         {
-            throw new NotImplementedException();
+            return _context.Pokemons.OrderBy(x=>x.Id == id).ToList();
         }
 
         public Pokemon GetPokemon(string name)
         {
-            throw new NotImplementedException();
+            return _context.Pokemons.Where(x=>x.Name == name).FirstOrDefault();
         }
 
         public ICollection<Pokemon> GetPokemons()
@@ -28,14 +28,19 @@ namespace PokemonWebApi.Repositories
             return _context.Pokemons.OrderBy(p => p.Id).ToList();
         }
 
-        public decimal GetRating(Pokemon pokeId)
+        public decimal GetPokemonRating(int pokeId)
         {
-            throw new NotImplementedException();
+            var reviews = _context.Reviews.Where(x => x.Pokemon.Id == pokeId);
+            if (reviews.Count() <= 0)
+                return 0;
+            return ((decimal)reviews.Sum(x => x.Rating) / reviews.Count());
+
         }
 
-        public bool PokemonExist(Pokemon pokeId)
+        public bool PokemonExist(int pokeId)
         {
-            throw new NotImplementedException();
+            var result = _context.Pokemons.Any(x => x.Id == pokeId);
+            return result;
         }
     }
 }
