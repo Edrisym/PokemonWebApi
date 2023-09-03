@@ -15,12 +15,12 @@ namespace PokemonWebApi.Repositories
 
         public List<Pokemon> GetPokemon(int id)
         {
-            return _context.Pokemons.OrderBy(x=>x.Id == id).ToList();
+            return _context.Pokemons.OrderBy(x => x.Id == id).ToList();
         }
 
         public Pokemon GetPokemon(string name)
         {
-            return _context.Pokemons.Where(x=>x.Name == name).FirstOrDefault();
+            return _context.Pokemons.Where(x => x.Name == name).FirstOrDefault();
         }
 
         public ICollection<Pokemon> GetPokemons()
