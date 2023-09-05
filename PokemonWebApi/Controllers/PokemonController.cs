@@ -25,6 +25,19 @@ namespace PokemonWebApi.Controllers
                 return BadRequest(ModelState);
             return Ok(pokemon);
         }
+
+        [HttpGet]
+        [ProducesResponseType(200, Type = typeof(Pokemon))]
+        [ProducesResponseType(400)]   
+        public IActionResult GetPokemon(int pokeId)
+        {
+            if(!_pokemonRepository.PokemonExist(pokeId))
+                return NotFound();
+            var pokemon = _pokemonRepository.GetPokemon(pokeId);
+            if(!ModelState.IsValid)
+                return BadRequest();
+            return Ok(pokemon);
+        }
     }
 }
 
