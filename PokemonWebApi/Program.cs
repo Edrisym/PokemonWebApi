@@ -3,12 +3,14 @@ using PokemonWebApi.Data;
 using PokemonWebApi;
 using PokemonWebApi.Interfaces;
 using PokemonWebApi.Repositories;
+using AutoMapper;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddTransient<Seed>();
 builder.Services.AddScoped<IPokemonRepository, PokemonRepository>();
 
