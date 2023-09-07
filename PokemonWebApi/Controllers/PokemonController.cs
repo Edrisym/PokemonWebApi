@@ -17,7 +17,6 @@ namespace PokemonWebApi.Controllers
 
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Pokemon>))]
-
         public IActionResult GetPokemon()
         {
             var pokemon = _pokemonRepository.GetPokemons();
@@ -28,13 +27,13 @@ namespace PokemonWebApi.Controllers
 
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(Pokemon))]
-        [ProducesResponseType(400)]   
+        [ProducesResponseType(400)]
         public IActionResult GetPokemon(int pokeId)
         {
-            if(!_pokemonRepository.PokemonExist(pokeId))
+            if (!_pokemonRepository.PokemonExist(pokeId))
                 return NotFound();
             var pokemon = _pokemonRepository.GetPokemon(pokeId);
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
                 return BadRequest();
             return Ok(pokemon);
         }
