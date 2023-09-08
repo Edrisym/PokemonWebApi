@@ -9,4 +9,3 @@ namespace PokemonWebApi.Dto
         public string Gym { get; set; }
     }
 }
-
