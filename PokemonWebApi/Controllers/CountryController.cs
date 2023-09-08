@@ -36,7 +36,7 @@ namespace PokemonWebApi.Controllers
         [HttpGet("{countryId}")]
         [ProducesResponseType(200, Type = typeof(Country))]
         [ProducesResponseType(400)]
-        public IActionResult GetPokemon(int countryId)
+        public IActionResult GetCountry(int countryId)
         {
             if (!_countryRepository.CountryExists(countryId))
                 return NotFound();
@@ -55,6 +55,8 @@ namespace PokemonWebApi.Controllers
         public IActionResult GetCountryOfAnOwner(int ownerId)
         {
             var country = _mapper.Map<CountryDto>(_countryRepository.GetCountryByOwner(ownerId));
+            if (country == null)
+                return NotFound();
 
             if (!ModelState.IsValid)
                 return BadRequest();
