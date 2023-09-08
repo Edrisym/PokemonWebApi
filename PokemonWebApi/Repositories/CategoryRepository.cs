@@ -16,27 +16,24 @@ namespace PokemonWebApi.Repositories
 
         public bool CategoryExists(int id)
         {
-            var result = _context.Categories.Any(x => x.Id == id);
-            return result;
+            return _context.Categories.Any(x => x.Id == id);
+
         }
 
         public ICollection<Category> GetCategories()
         {
-            var result = _context.Categories.OrderBy(x => x.Id).ToList();
-            return result;
+            return _context.Categories.ToList();
         }
 
         public Category GetCategory(int id)
         {
-            var result = _context.Categories.Where(x => x.Id == id).FirstOrDefault();
-            return result;
+            return _context.Categories.Where(x => x.Id == id).FirstOrDefault();
         }
 
         public ICollection<Pokemon> GetPokemonsByCategory(int categoryId)
         {
-            var result = _context.PokemonCategories.Where(x => x.CategoryId == categoryId);
-            var res = result.Select(x => x.Pokemon).ToList();
-            return res;
+            return _context.PokemonCategories.Where(x => x.CategoryId == categoryId)
+            .Select(x => x.Pokemon).ToList();
         }
     }
 }

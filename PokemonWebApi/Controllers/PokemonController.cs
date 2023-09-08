@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using PokemonWebApi.Dto;
 using PokemonWebApi.Interfaces;
 using PokemonWebApi.Models;
+using PokemonWebApi.Repositories;
 
 namespace PokemonWebApi.Controllers
 {
@@ -13,6 +14,7 @@ namespace PokemonWebApi.Controllers
     {
         private readonly IPokemonRepository _pokemonRepository;
         private readonly IMapper _mapper;
+
         public PokemonController(IPokemonRepository pokemonRepository, IMapper mapper)
         {
             _pokemonRepository = pokemonRepository;
