@@ -10,6 +10,10 @@ namespace PokemonWebApi.Helper
         public MappingProfile()
         {
             CreateMap<Pokemon, PokemonDto>();
+            CreateMap<Category, CategoryDto>();
+            CreateMap<Country, CountryDto>();
+            //CreateMap<Owner, OwnerDto>();
+            //CreateMap<Category, CategoryDto>();
         }
     }
 }

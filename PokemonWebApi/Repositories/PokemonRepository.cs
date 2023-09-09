@@ -37,7 +37,7 @@ namespace PokemonWebApi.Repositories
 
         }
 
-        public bool PokemonExist(int pokeId)
+        public bool PokemonExists(int pokeId)
         {
             var result = _context.Pokemons.Any(x => x.Id == pokeId);
             return result;

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using PokemonWebApi.Dto;
 using PokemonWebApi.Interfaces;
 using PokemonWebApi.Models;
+using PokemonWebApi.Repositories;
 
 namespace PokemonWebApi.Controllers
 {
@@ -13,6 +14,7 @@ namespace PokemonWebApi.Controllers
     {
         private readonly IPokemonRepository _pokemonRepository;
         private readonly IMapper _mapper;
+
         public PokemonController(IPokemonRepository pokemonRepository, IMapper mapper)
         {
             _pokemonRepository = pokemonRepository;
@@ -31,12 +33,12 @@ namespace PokemonWebApi.Controllers
             return Ok(pokemon);
         }
 
-        [HttpGet]
+        [HttpGet("{pokeId}")]
         [ProducesResponseType(200, Type = typeof(Pokemon))]
         [ProducesResponseType(400)]
         public IActionResult GetPokemon(int pokeId)
         {
-            if (!_pokemonRepository.PokemonExist(pokeId))
+            if (!_pokemonRepository.PokemonExists(pokeId))
                 return NotFound();
 
             var pokemon = _mapper.Map<PokemonDto>(_pokemonRepository.GetPokemon(pokeId));
@@ -52,7 +54,7 @@ namespace PokemonWebApi.Controllers
         [ProducesResponseType(400)]
         public IActionResult GetPokemonating(int pokeId)
         {
-            if (!_pokemonRepository.PokemonExist(pokeId))
+            if (!_pokemonRepository.PokemonExists(pokeId))
                 return NotFound();
 
             var rating = _pokemonRepository.GetPokemonRating(pokeId);
