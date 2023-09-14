@@ -56,7 +56,7 @@ namespace PokemonWebApi.Controllers
             if (!_reviewRepository.ReviewExists(pokeId))
                 return NotFound();
 
-            var review = _reviewRepository.GetReviewsOfAPokemon(pokeId);
+            var review = _mapper.Map<ReviewDto>(_reviewRepository.GetReviewsOfAPokemon(pokeId));
 
             if (!ModelState.IsValid)
                 return BadRequest();
