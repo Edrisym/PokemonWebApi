@@ -38,6 +38,11 @@ namespace PokemonWebApi.Repositories
         {
             return _context.Reviewers.Where(x => x.Id == reviewerId).Any();
         }
+
+        public Reviewer GetReviewerWithInclude()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 
