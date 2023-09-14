@@ -51,7 +51,7 @@ namespace PokemonWebApi.Controllers
         [HttpGet("{pokemon}/pokemonId")]
         [ProducesResponseType(200, Type = typeof(Review))]
         [ProducesResponseType(400)]
-        public IActionResult GetPokemonating(int pokeId)
+        public IActionResult GetReviewsOfAPokemon(int pokeId)
         {
             if (!_reviewRepository.ReviewExists(pokeId))
                 return NotFound();
