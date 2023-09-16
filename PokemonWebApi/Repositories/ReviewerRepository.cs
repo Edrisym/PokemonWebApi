@@ -13,15 +13,10 @@ namespace PokemonWebApi.Repositories
         {
             _context = context;
         }
-
-        public Reviewer GetReviewerWithInclude(int reviewerId)
-        {
-            return _context.Reviewers.Where(x => x.Id == reviewerId).Include(x => x.Id).FirstOrDefault();
-        }
-
+       
         public Reviewer GetReviewer(int reviewerId)
         {
-            return _context.Reviewers.Where(x => x.Id == reviewerId).Include(x => x.Id).FirstOrDefault();
+            return _context.Reviewers.Where(x => x.Id == reviewerId).Include(x =>x.Reviews).FirstOrDefault();
         }
 
         public ICollection<Reviewer> GetReviewers()
