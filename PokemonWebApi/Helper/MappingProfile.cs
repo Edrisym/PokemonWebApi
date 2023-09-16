@@ -15,6 +15,8 @@ namespace PokemonWebApi.Helper
             CreateMap<CategoryDto, Category>();
 
             CreateMap<Country, CountryDto>();
+            CreateMap<CountryDto, Country>();
+
             CreateMap<Owner, OwnerDto>();
             CreateMap<Reviewer, ReviewerDto>();
             CreateMap<Review, ReviewDto>();
