@@ -12,11 +12,15 @@ namespace PokemonWebApi.Controllers
     [ApiController]
     public class OwnerController : Controller
     {
+        private readonly ICountryRepository _countryRepository;
         private readonly IOwnerRepository _ownerRepository;
         private readonly IMapper _mapper;
 
-        public OwnerController(IOwnerRepository ownerRepository, IMapper mapper)
+        public OwnerController(IOwnerRepository ownerRepository,
+            ICountryRepository countryRepository,
+            IMapper mapper)
         {
+            _countryRepository = countryRepository;
             _ownerRepository = ownerRepository;
             _mapper = mapper;
         }
@@ -63,6 +67,44 @@ namespace PokemonWebApi.Controllers
                 return BadRequest();
 
             return Ok(owner);
+        }
+
+        [HttpPost]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        public IActionResult CreateOwner([FromQuery] int countryId, [FromBody] OwnerDto ownerCreate)
+        {
+            if (ownerCreate == null)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var country = _ownerRepository.GetOwners()
+                .Where(x => x.FirstName.Trim().ToUpper() == ownerCreate.FirstName.TrimEnd().ToUpper())
+                .FirstOrDefault();
+
+            if (country != null)
+            {
+                ModelState.AddModelError("", "country already exists");
+                return StatusCode(422, ModelState);
+            }
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var ownerMap = _mapper.Map<Owner>(ownerCreate);
+
+
+            ownerMap.Country = _countryRepository.GetCountry(countryId);
+
+
+            if (!_ownerRepository.CreateOwner(ownerMap))
+            {
+                ModelState.AddModelError("", "Something went wrong during saving");
+                return StatusCode(500, ModelState);
+            }
+
+            return Ok("Successfully created");
         }
     }
 }
