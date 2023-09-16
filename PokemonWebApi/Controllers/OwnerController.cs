@@ -12,11 +12,15 @@ namespace PokemonWebApi.Controllers
     [ApiController]
     public class OwnerController : Controller
     {
+        private readonly ICountryRepository _countryRepository;
         private readonly IOwnerRepository _ownerRepository;
         private readonly IMapper _mapper;
 
-        public OwnerController(IOwnerRepository ownerRepository, IMapper mapper)
+        public OwnerController(IOwnerRepository ownerRepository,
+            ICountryRepository countryRepository,
+            IMapper mapper)
         {
+            _countryRepository = countryRepository;
             _ownerRepository = ownerRepository;
             _mapper = mapper;
         }
@@ -68,7 +72,7 @@ namespace PokemonWebApi.Controllers
         [HttpPost]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
-        public IActionResult CreateOwner([FromBody] OwnerDto ownerCreate)
+        public IActionResult CreateOwner([FromQuery] int countryId, [FromBody] OwnerDto ownerCreate)
         {
             if (ownerCreate == null)
             {
@@ -88,9 +92,13 @@ namespace PokemonWebApi.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var cownerMap = _mapper.Map<Owner>(ownerCreate);
+            var ownerMap = _mapper.Map<Owner>(ownerCreate);
 
-            if (!_ownerRepository.CreateOwner(cownerMap))
+
+            ownerMap.Country = _countryRepository.GetCountry(countryId);
+
+
+            if (!_ownerRepository.CreateOwner(ownerMap))
             {
                 ModelState.AddModelError("", "Something went wrong during saving");
                 return StatusCode(500, ModelState);
