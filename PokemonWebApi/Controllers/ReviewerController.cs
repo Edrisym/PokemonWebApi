@@ -36,12 +36,12 @@ namespace PokemonWebApi.Controllers
         [HttpGet("{reviewerId}")]
         [ProducesResponseType(200, Type = typeof(Reviewer))]
         [ProducesResponseType(400)]
-        public IActionResult GetReviewer(int reviewId)
+        public IActionResult GetReviewer(int reviewerId)
         {
-            if (!_reviewerRepository.ReviewerExists(reviewId))
+            if (!_reviewerRepository.ReviewerExists(reviewerId))
                 return NotFound();
 
-            var reviewer = _mapper.Map<ReviewerDto>(_reviewerRepository.GetReviewer(reviewId));
+            var reviewer = _mapper.Map<ReviewerDto>(_reviewerRepository.GetReviewer(reviewerId));
 
             if (!ModelState.IsValid)
                 return BadRequest();
@@ -52,12 +52,12 @@ namespace PokemonWebApi.Controllers
         [HttpGet("{reviewerId}/reviews")]
         [ProducesResponseType(200, Type = typeof(Review))]
         [ProducesResponseType(400)]
-        public IActionResult GetReviewsByAReviewer(int pokeId)
+        public IActionResult GetReviewsByAReviewer(int reviewerId)
         {
-            if (!_reviewerRepository.ReviewerExists(pokeId))
+            if (!_reviewerRepository.ReviewerExists(reviewerId))
                 return NotFound();
 
-            var reviewer = _mapper.Map<List<ReviewerDto>>(_reviewerRepository.GetReviewsByReviewer(pokeId));
+            var reviewer = _mapper.Map<List<ReviewDto>>(_reviewerRepository.GetReviewsByReviewer(reviewerId));
 
             if (!ModelState.IsValid)
                 return BadRequest();
