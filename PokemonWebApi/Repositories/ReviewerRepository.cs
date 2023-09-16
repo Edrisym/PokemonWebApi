@@ -21,7 +21,7 @@ namespace PokemonWebApi.Repositories
 
         public Reviewer GetReviewer(int reviewerId)
         {
-            return _context.Reviewers.Where(x => x.Id == reviewerId).FirstOrDefault();
+            return _context.Reviewers.Where(x => x.Id == reviewerId).Include(x => x.Id).FirstOrDefault();
         }
 
         public ICollection<Reviewer> GetReviewers()
