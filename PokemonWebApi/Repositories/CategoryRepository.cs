@@ -14,6 +14,12 @@ namespace PokemonWebApi.Repositories
             _context = context;
         }
 
+        public bool CreateCategory(Category category)
+        {
+            _context.Add(category);
+            return Save();
+        }
+
         public bool CategoryExists(int id)
         {
             return _context.Categories.Any(x => x.Id == id);
@@ -34,6 +40,12 @@ namespace PokemonWebApi.Repositories
         {
             return _context.PokemonCategories.Where(x => x.CategoryId == categoryId)
             .Select(x => x.Pokemon).ToList();
+        }
+
+        public bool Save()
+        {
+            var saved = _context.SaveChanges();
+            return saved > 0 ? true : false;
         }
     }
 }
