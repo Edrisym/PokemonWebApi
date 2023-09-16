@@ -5,7 +5,7 @@ using PokemonWebApi.Models;
 
 namespace PokemonWebApi.Controllers
 {
-    public class ReviewRepository
+    public class ReviewRepository : IReviewRepository
     {
         private readonly DataContext _context;
 
