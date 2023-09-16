@@ -48,7 +48,7 @@ namespace PokemonWebApi.Controllers
             return Ok(review);
         }
 
-        [HttpGet("{pokemon}/pokemonId")]
+        [HttpGet("pokemon/{pokeId}")]
         [ProducesResponseType(200, Type = typeof(Review))]
         [ProducesResponseType(400)]
         public IActionResult GetReviewsOfAPokemon(int pokeId)
@@ -56,7 +56,7 @@ namespace PokemonWebApi.Controllers
             if (!_reviewRepository.ReviewExists(pokeId))
                 return NotFound();
 
-            var review = _mapper.Map<ReviewDto>(_reviewRepository.GetReviewsOfAPokemon(pokeId));
+            var review = _mapper.Map<List<ReviewDto>>(_reviewRepository.GetReviewsOfAPokemon(pokeId));
 
             if (!ModelState.IsValid)
                 return BadRequest();

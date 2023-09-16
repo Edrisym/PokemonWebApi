@@ -49,7 +49,7 @@ namespace PokemonWebApi.Controllers
             return Ok(owner);
         }
 
-        [HttpGet("{owners}/pokemon")]
+        [HttpGet("{ownerId}/pokemon")]
         [ProducesResponseType(200, Type = typeof(Owner))]
         [ProducesResponseType(400)]
         public IActionResult GetPokemonByOwner(int ownerId)
