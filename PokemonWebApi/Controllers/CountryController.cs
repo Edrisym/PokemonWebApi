@@ -50,7 +50,7 @@ namespace PokemonWebApi.Controllers
             return Ok(country);
         }
 
-        [HttpGet("{owners}/ownerId")]
+        [HttpGet("owners/{ownerId}")]
         [ProducesResponseType(200, Type = typeof(Country))]
         [ProducesResponseType(400)]
         public IActionResult GetCountryOfAnOwner(int ownerId)
