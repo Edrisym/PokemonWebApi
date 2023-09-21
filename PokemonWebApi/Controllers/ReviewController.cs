@@ -13,11 +13,18 @@ namespace PokemonWebApi.Controllers
     public class ReviewController : Controller
     {
         private readonly IReviewRepository _reviewRepository;
+        private readonly IReviewerRepository _reviewerRepository;
+        private readonly IPokemonRepository _pokemonRepository;
         private readonly IMapper _mapper;
-        public ReviewController(IReviewRepository reviewRepository, IMapper mapper)
+        public ReviewController(IReviewRepository reviewRepository,
+            IMapper mapper,
+            IPokemonRepository pokemonRepository,
+            IReviewerRepository reviewerRepository)
         {
             _mapper = mapper;
             _reviewRepository = reviewRepository;
+            _pokemonRepository = pokemonRepository;
+            _reviewerRepository = reviewerRepository;
         }
 
         [HttpGet]
@@ -67,7 +74,7 @@ namespace PokemonWebApi.Controllers
         [HttpPost]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
-        public IActionResult CreateReview([FromBody] ReviewDto reviewCreate)
+        public IActionResult CreateReview([FromQuery] int reviewerId, [FromQuery] int pokemonId, [FromBody] ReviewDto reviewCreate)
         {
             if (reviewCreate == null)
             {
@@ -88,6 +95,10 @@ namespace PokemonWebApi.Controllers
                 return BadRequest(ModelState);
 
             var reviewMap = _mapper.Map<Review>(reviewCreate);
+
+            reviewMap.Pokemon = _pokemonRepository.GetPokemon(pokemonId);
+
+            reviewMap.Reviewer = _reviewerRepository.GetReviewer(reviewerId);
 
             if (!_reviewRepository.CreateReview(reviewMap))
             {
