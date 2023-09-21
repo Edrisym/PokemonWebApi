@@ -68,18 +68,18 @@ namespace PokemonWebApi.Controllers
         [HttpPost]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
-        public IActionResult CreateOwner([FromQuery] int countryId, [FromBody] Pokemon pokemonCreate)
+        public IActionResult CreatePokemon([FromQuery] int ownerId, [FromQuery] int categoryId, [FromBody] Pokemon pokemonCreate)
         {
-            if (ownerCreate == null)
+            if (pokemonCreate == null)
             {
                 return BadRequest(ModelState);
             }
 
-            var country = _ownerRepository.GetOwners()
-                .Where(x => x.FirstName.Trim().ToUpper() == ownerCreate.FirstName.TrimEnd().ToUpper())
+            var pokemon = _pokemonRepository.GetPokemons()
+                .Where(x => x.Name.Trim().ToUpper() == pokemonCreate.Name.TrimEnd().ToUpper())
                 .FirstOrDefault();
 
-            if (country != null)
+            if (pokemon != null)
             {
                 ModelState.AddModelError("", "country already exists");
                 return StatusCode(422, ModelState);
@@ -88,13 +88,9 @@ namespace PokemonWebApi.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var ownerMap = _mapper.Map<Owner>(ownerCreate);
+            var pokemonMap = _mapper.Map<Pokemon>(pokemonCreate);
 
-
-            ownerMap.Country = _countryRepository.GetCountry(countryId);
-
-
-            if (!_ownerRepository.CreateOwner(ownerMap))
+            if (!_pokemonRepository.CreatePokemon(ownerId, categoryId, pokemonMap))
             {
                 ModelState.AddModelError("", "Something went wrong during saving");
                 return StatusCode(500, ModelState);
