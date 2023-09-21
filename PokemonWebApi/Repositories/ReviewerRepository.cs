@@ -13,10 +13,10 @@ namespace PokemonWebApi.Repositories
         {
             _context = context;
         }
-       
+
         public Reviewer GetReviewer(int reviewerId)
         {
-            return _context.Reviewers.Where(x => x.Id == reviewerId).Include(x =>x.Reviews).FirstOrDefault();
+            return _context.Reviewers.Where(x => x.Id == reviewerId).Include(x => x.Reviews).FirstOrDefault();
         }
 
         public ICollection<Reviewer> GetReviewers()
@@ -37,6 +37,18 @@ namespace PokemonWebApi.Repositories
         public Reviewer GetReviewerWithInclude()
         {
             throw new NotImplementedException();
+        }
+
+        public bool CreateReviewer(Reviewer reviewer)
+        {
+            _context.Add(reviewer);
+            return Save();
+        }
+
+        public bool Save()
+        {
+            var saved = _context.SaveChanges();
+            return saved > 0 ? true : false;
         }
     }
 }
