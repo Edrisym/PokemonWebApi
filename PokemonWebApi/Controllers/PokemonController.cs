@@ -68,7 +68,7 @@ namespace PokemonWebApi.Controllers
         [HttpPost]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
-        public IActionResult CreatePokemon([FromQuery] int ownerId, [FromQuery] int categoryId, [FromBody] Pokemon pokemonCreate)
+        public IActionResult CreatePokemon([FromQuery] int ownerId, [FromQuery] int categoryId, [FromBody] PokemonDto pokemonCreate)
         {
             if (pokemonCreate == null)
             {
@@ -81,7 +81,7 @@ namespace PokemonWebApi.Controllers
 
             if (pokemon != null)
             {
-                ModelState.AddModelError("", "country already exists");
+                ModelState.AddModelError("", "pokemon already exists");
                 return StatusCode(422, ModelState);
             }
 
