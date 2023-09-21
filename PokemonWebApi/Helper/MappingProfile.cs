@@ -22,7 +22,10 @@ namespace PokemonWebApi.Helper
             CreateMap<OwnerDto, Owner>();
 
             CreateMap<Reviewer, ReviewerDto>();
+            CreateMap<ReviewerDto, Reviewer>();
+
             CreateMap<Review, ReviewDto>();
+            CreateMap<ReviewDto, Review>();
         }
     }
 }
